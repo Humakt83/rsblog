@@ -20,7 +20,7 @@
     (if (a/check-login login password)
       (-> (resp/redirect "/")
           (assoc-in [:session :admin] true))
-      (p/admin-login)))
+      (p/admin-login "Invalid username or password")))
   (GET "/admin/logout" []
     (-> (resp/redirect "/")
         (assoc-in [:session :admin] false)))
@@ -31,6 +31,9 @@
   (POST "/articles" [title body]
     (do (db/create-article title body)
       (resp/redirect "/")))
+  (DELETE "/articles/:art-id" [art-id]
+    (do (db/delete-article art-id)
+        (resp/redirect "/")))
   (GET "/articles/:art-id/edit" [art-id] (p/edit-article (db/get-article-by-id art-id)))
   (POST "/articles/:art-id" [art-id title body]
     (do (db/update-article art-id title body)

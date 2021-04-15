@@ -1,6 +1,7 @@
 (ns rsblog.db
   (:require [monger.core :as mg]
-            [monger.collection :as mc])
+            [monger.collection :as mc]
+            [monger.operators :refer [$set]])
   (:import
     [org.bson.types ObjectId]))
 
@@ -18,6 +19,12 @@
             {:title title
              :body body
              :created (new java.util.Date)}))
+
+(defn update-article [art-id title body]
+  (mc/update-by-id db articles-coll (ObjectId. art-id)
+             {$set
+              {:title title
+              :body body}}))
 
 (defn list-articles []
   (mc/find-maps db articles-coll))

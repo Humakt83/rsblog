@@ -39,3 +39,14 @@
       (anti-forgery-field)
       (form/submit-button "Save!")
       )))
+
+(defn admin-login []
+  (base-page
+    (form/form-to
+      [:post "/admin/login"]
+      (form/label "login" "Login")
+      (form/text-field "login")
+      (form/label "password" "Password")
+      (form/password-field "password")
+      (anti-forgery-field)
+      (form/submit-button "Login!"))))
